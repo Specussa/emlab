@@ -296,6 +296,7 @@ if(productinput){
     this.value = this.value.replace(/[^0-9]$/g, '');
   }
   document.getElementById("product__forname").oninput = function(){
+    this.value = this.value.substr(0, this.getAttribute('maxl'));
     this.value = this.value.replace(/[^a-z\ ]+/ig, "");
   }
   document.querySelectorAll('.product__count .product__minus').forEach(function (element) {
@@ -432,6 +433,38 @@ class Select {
 Select.attach()
 // end select
 
+// start select
+var productButton = document.getElementsByClassName("product__accordion_button");
+var i;
+
+for (i = 0; i < productButton.length; i++) {
+  productButton[i].onclick = function(e) {
+    var productNext = this.nextElementSibling;
+    var productInfo = document.getElementsByClassName("product__accordion_info");
+    var productInfoActive = document.getElementsByClassName("product__accordion_button active");
+
+    if (productNext.style.maxHeight) {
+      productNext.style.maxHeight = null;
+      this.classList.remove("active");
+      productNext.classList.remove("active");
+    } else {
+      for (var q = 0; q < productInfoActive.length; q++) {
+        productInfoActive[q].classList.remove("active");
+        productInfo[q].classList.remove("active");
+      }
+      for (var p = 0; p < productInfo.length; p++) {
+        this.classList.remove("active");
+        productInfo[p].classList.remove("active");
+        productInfo[p].style.maxHeight = null;
+      }
+      productNext.style.maxHeight = productNext.scrollHeight + "px";
+      productNext.classList.add("active");
+      this.classList.add("active");
+    }
+  };
+}
+// end select
+
 // start about_slider__swiper
 const aboutSlider = document.querySelector('.about_slider__swiper');
 if(aboutSlider){
@@ -474,3 +507,255 @@ if(productSlider){
   });
 }
 // end product
+
+// start filters
+
+const filtersBtn = document.querySelector(".btn_filters");
+const filtersBlock = document.querySelector(".filters");
+const filtersSubmit = document.querySelector("#submit_filters");
+const filtersBoxGroup = document.querySelectorAll(".filters_box");
+const filtersCheckbox = document.querySelectorAll(".filters_item__checkbox");
+const uncheck = [...document.querySelectorAll(".filters_item__checkbox")];
+const spanCheck = document.querySelector(".btn_filters")?.children[1].children[0]
+let numberCheck = 0
+
+if (filtersBtn) {
+  filtersBtn.addEventListener('click', function() {
+    filtersBlock.classList.toggle('active') 
+  })
+}
+
+if (filtersSubmit) {
+  filtersSubmit.addEventListener('click', function() {
+    event.preventDefault()
+    filtersBlock.classList.remove('active')
+  })
+}
+
+if (filtersBoxGroup) {
+  filtersBoxGroup.forEach((groupItem, i) => {
+    if (i > 0) {
+      groupItem.addEventListener('click', function() {
+        var questionsitemNext = this.children[1];
+        if (questionsitemNext.style.maxHeight) {
+          questionsitemNext.style.maxHeight = null;
+          groupItem.classList.remove('active')
+        } else {
+          questionsitemNext.style.maxHeight = questionsitemNext.scrollHeight + "px";
+          groupItem.classList.add('active')
+        }
+      });
+    }
+  });
+}
+
+uncheck.forEach(input => input.addEventListener('input', function(event) {
+  if (event.target.checked) {
+    numberCheck++
+    spanCheck.innerHTML = numberCheck
+  } else {
+    numberCheck--
+    spanCheck.innerHTML = numberCheck
+  }
+}))
+
+// end filters
+
+// start ingredient popup mobile
+
+const ingredientItems = document.querySelectorAll(".ingredient");
+const ingredientpopup = document.querySelector('.ingredient_popup');
+const ingredientpopupOverlay = document.querySelector('.ingredient_popup__overlay');
+const ingredientPopupInfo = document.querySelector('.ingredient_popup__info');
+
+if (ingredientpopupOverlay) {
+  ingredientItems.forEach((ingredient, i) => {
+    ingredient.addEventListener('click', function() {
+      ingredientpopup.classList.add('active');
+      ingredientpopupOverlay.classList.add('active');
+      document.documentElement.classList.add("noscroll");
+      const ingredientText = this.children[0].children[1]
+      const ingredientName = this.children[1]
+      ingredientPopupInfo.innerHTML = `<p>${ingredientName.innerHTML}</p>` + ingredientText.innerHTML ;
+      scroll.stop();
+    });  
+  });
+  if (ingredientpopupOverlay) {
+    ingredientpopupOverlay.addEventListener('click', e => {
+      ingredientpopup.classList.remove('active');
+      ingredientpopupOverlay.classList.remove('active');
+      document.documentElement.classList.remove("noscroll");
+      scroll.start();
+    });
+}
+  document.querySelector('.ingredient_popup__close').addEventListener('click', e => {
+    ingredientpopup.classList.remove('active');
+    ingredientpopupOverlay.classList.remove('active');
+    document.documentElement.classList.remove("noscroll");
+    console.log('sss')
+    scroll.start();
+  });
+}
+
+// end ingredient popup mobile
+
+// start yandex map
+const maps = document.getElementById("map");
+if(maps) {
+  var myMap,ymaps;
+  function init() {
+    myMap = document.getElementById("map");
+    if (!myMap) return;
+    myMap = new ymaps.Map(myMap, {
+      center: [55.749633, 37.537434],
+      zoom: 14, 
+      controls: []
+      },{
+      zoomControlPosition: { right: 0, top: 0 },
+      zoomControlSize: 'auto'
+    });
+
+    if(oldWidth <= 1200){
+      myMap.behaviors.disable('drag');
+    }
+
+    const zoomInBtn = document.getElementById('zoom-in');
+    const zoomOutBtn = document.getElementById('zoom-out');
+
+    zoomInBtn.addEventListener('click', zoomIn);
+    zoomOutBtn.addEventListener('click', zoomOut);
+
+    function zoomIn() {
+      const currentZoom = myMap.getZoom();
+      myMap.setZoom(currentZoom + 1);
+    }
+  
+    function zoomOut() {
+      const currentZoom = myMap.getZoom();
+      myMap.setZoom(currentZoom - 1);
+    }
+
+    var data = {
+      'points': [{
+        "infoPoint": '<div id="mapmoscow" class="map__point{% if properties.active %} map__active{% endif %}">\
+        <div class="map__icon"></div>\
+          <div class="map__point_block">\
+            <div class="map__point_temp"><br>г. Москва,ул. Старокалужское шоссе, д. 62</div>\
+          </div>\
+        </div>',
+        "latitude": 55.749633,
+        "longitude": 37.537434,
+        },
+      ],
+    };
+
+    var mapCoordinates = new ymaps.GeoObjectCollection();
+
+    var results = [];
+    data.points.forEach(function(item, index){
+      results.push(createPlacemark(item));
+    });
+    myMap.geoObjects.add(mapCoordinates);
+    myMap.behaviors.disable('scrollZoom');
+
+    function createPlacemark(item) {
+      var options = Object();
+      var squareLayout = ymaps.templateLayoutFactory.createClass(item.infoPoint);
+      var place = new ymaps.Placemark([item.latitude, item.longitude],{hintContent: false}, {
+        iconLayout: squareLayout,
+        iconShape: {   
+          type: 'Rectangle',
+          coordinates: [
+            [-55, -50], [30, 50]
+          ]
+        }
+      });
+      mapCoordinates.add(place);
+    }
+    var thatCoordinates;
+    mapCoordinates.events.add('click', function (e) {
+      var that = e.get('target').properties.get('active');
+      mapCoordinates.each(function(item, index){
+        item.properties.set('active', false);
+        if(e.get('target') == item && !that){
+          e.get('target').properties.set('active', true);
+          thatCoordinates = e.get('coords');
+        }
+      });
+
+      var mapmoscow = document.getElementById('mapmoscow');
+      if (mapmoscow.classList.contains("map__active")) {
+        myMap.setCenter([55.749633, 37.537434],17);
+      } else {
+        myMap.setCenter([55.749633, 37.537434],9);
+      };
+    });
+  }
+  if (ymaps != undefined) ymaps.ready(init);
+}
+// end yandex map
+
+// start indago picture
+
+const indagoPicturesWrapper = document.querySelector('.indago_sub_pictures');
+const indagoPictureslist = document.querySelectorAll(".indago_sub_picture");
+
+if (indagoPicturesWrapper) {
+  indagoPictureslist.forEach((indagoPicture) => {
+    indagoPicture.addEventListener('mouseover', function() {
+      indagoPictureslist.forEach((picture) => {
+        if(picture.classList.contains('active')) {
+          picture.classList.remove('active');
+        }
+      })
+      indagoPicture.classList.add('active');
+    });  
+  });
+}
+
+// end indago picture
+
+// start indago efficiency mobile
+
+const indagoEfficiencyIcon = document.querySelector('.indago_efficiency__svg_mobule');
+const indagoEfficiencyWrapper = document.querySelector('.indago_efficiency__right');
+const indagoEfficiencyDescr = document.querySelector('.indago_efficiency__descr');
+const indagoEfficiencyText = document.querySelector('.indago_efficiency__text');
+
+if(indagoEfficiencyDescr) {
+  if (indagoEfficiencyDescr.scrollHeight > indagoEfficiencyText.scrollHeight) {
+    indagoEfficiencyText.style.maxHeight = indagoEfficiencyDescr.scrollHeight + "px";
+    indagoEfficiencyText.style.height = indagoEfficiencyDescr.scrollHeight + "px";
+    console.log(indagoEfficiencyDescr.scrollHeight, indagoEfficiencyText.scrollHeight)
+  } else {
+    indagoEfficiencyText.style.maxHeight = indagoEfficiencyText.scrollHeight + "px";
+    indagoEfficiencyText.style.height = indagoEfficiencyText.scrollHeight + "px";
+    console.log(indagoEfficiencyDescr.scrollHeight, indagoEfficiencyText.scrollHeight)
+  }
+}
+
+if (indagoEfficiencyDescr) {
+  indagoEfficiencyDescr.style.maxHeight = null;
+  indagoEfficiencyDescr.style.height =  null;
+}
+
+if(indagoEfficiencyIcon) {
+  indagoEfficiencyIcon.addEventListener('click', e => {
+    indagoEfficiencyWrapper.classList.toggle("active")
+    if (indagoEfficiencyText.style.maxHeight) {
+      indagoEfficiencyDescr.style.maxHeight = indagoEfficiencyText.style.maxHeight;
+      indagoEfficiencyDescr.style.height =  indagoEfficiencyText.style.height;
+      indagoEfficiencyText.style.maxHeight = null;
+      indagoEfficiencyText.style.height =  null;
+    } else {
+      indagoEfficiencyText.style.maxHeight = indagoEfficiencyDescr.style.maxHeight;
+      indagoEfficiencyText.style.height =  indagoEfficiencyDescr.style.height;
+      indagoEfficiencyDescr.style.maxHeight = null;
+      indagoEfficiencyDescr.style.height =  null;
+    }
+  })
+}
+
+// end indago efficiency mobile
+
+  
