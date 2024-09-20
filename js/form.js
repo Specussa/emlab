@@ -160,7 +160,7 @@ if(loginFormReg) {
     const loginRegEmailValue = loginRegEmail.value.trim();
     const loginRegPhoneValue = loginRegPhone.value.trim();
     if(!isFormEmailValid(loginRegEmailValue)) {
-      setErrorFor(loginRegEmail);
+      document.querySelector('#login_popup__form_reg .login_popup__button input').removeAttribute("disabled");
     } else if(
     loginRegNameValue !== '' && loginRegNameValue.length >= loginRegNameMin && loginRegNameValue.length <= loginRegNameMax && 
     loginRegLastnameValue !== '' && loginRegLastnameValue.length >= loginRegLastnameMin && loginRegLastnameValue.length <= loginRegLastnameMax && 
@@ -392,3 +392,156 @@ if(loginFormCode) {
   });
 }
 // end login_popup__form_code
+
+// start login_popup__form_reg
+const profileForm = document.getElementById('login_popup__form_reg');
+
+if(profileForm) {
+  const profileName = document.getElementById('profile__name');
+  const profileLastname = document.getElementById('profile__lastname');
+  const profileEmail = document.getElementById('profile__email');
+  const profilePhone = document.getElementById('profile__tel');
+  const profileMale = document.getElementById('profile__male');
+  const profileFemale = document.getElementById('profile__female');
+  const profileNameMin = profileName.getAttribute('minl');
+  const profileNameMax = profileName.getAttribute('maxl');
+  const profileLastnameMin = profileLastname.getAttribute('minl');
+  const profileLastnameMax = profileLastname.getAttribute('maxl');
+  const profileEmailMin = profileEmail.getAttribute('minl');
+  const profileEmailMax = profileEmail.getAttribute('maxl');
+  const profilePhoneMin = profilePhone.getAttribute('minl');
+  const profilePhoneMax = profilePhone.getAttribute('maxl');
+
+  function setForButton() {
+    const profileNameValue = profileName.value.trim();
+    const profileLastnameValue = profileLastname.value.trim();
+    const profileEmailValue = profileEmail.value.trim();
+    const profilePhoneValue = profilePhone.value.trim();
+    if(!isFormEmailValid(profileEmailValue)) {
+      document.querySelector('.profile__button input').setAttribute("disabled", "true");
+    } else if(profileMale.checked === false && profileFemale.checked === false){
+      document.querySelector('.profile__button input').setAttribute("disabled", "true");
+    } else if(
+    profileNameValue !== '' && profileNameValue.length >= profileNameMin && profileNameValue.length <= profileNameMax && 
+    profileLastnameValue !== '' && profileLastnameValue.length >= profileLastnameMin && profileLastnameValue.length <= profileLastnameMax && 
+    profileEmailValue !== '' && profileEmailValue.length >= profileEmailMin && profileEmailValue.length <= profileEmailMax && 
+    profilePhoneValue !== '' && profilePhoneValue.length >= profilePhoneMin && profilePhoneValue.length <= profilePhoneMax) {
+      document.querySelector('.profile__button input').removeAttribute("disabled");
+    } else {
+      document.querySelector('.profile__button input').setAttribute("disabled", "true");
+    }
+  }
+
+  profileName.oninput = function(){
+    setForButton();
+    this.value = this.value.substr(0, profileNameMax);
+    this.value = this.value.replace(/[0-9]/g, '');
+    this.value = this.value.replace(/[()!?•—@:,'";№\-_=« »<>%#~`&\/\$\^\.\*\+\\\{\}\[\]\(\|]$/g, '');
+  }
+  profileLastname.oninput = function(){
+    setForButton();
+    this.value = this.value.substr(0, profileLastnameMax);
+    this.value = this.value.replace(/[0-9]/g, '');
+    this.value = this.value.replace(/[()!?•—@:,'";№\-_=« »<>%#~`&\/\$\^\.\*\+\\\{\}\[\]\(\|]$/g, '');
+  }
+  profileEmail.oninput = function(){
+    setForButton();
+    this.value = this.value.substr(0, profileEmailMax);
+    this.value = this.value.replace(/[а-яА-ЯёЁ]$/g, '');
+    this.value = this.value.replace(/[()!?•—:,'";№\-_=« »<>%#~`&\/\$\^\*\+\\\{\}\[\]\(\|]$/g, '');
+  }
+  profilePhone.oninput = function(){
+    setForButton();
+    this.value = this.value.substr(0, profilePhoneMax);
+  }
+  if(profileMale.checked) {
+    setForButton();
+  }
+  if(profileFemale.checked) {
+    setForButton();
+  }
+
+  profileEmail.addEventListener('input', function () {
+    const emailValid = profileEmail.value.trim();
+    if (this.value.length < this.getAttribute('minl')) {
+      this.parentElement.classList.add('error');
+      this.parentElement.classList.remove('success');
+      this.nextElementSibling.classList.remove('success');
+    } else if (!isFormEmailValid(emailValid)) {
+      this.parentElement.classList.add('error');
+      this.parentElement.classList.remove('success');
+      this.nextElementSibling.classList.remove('success');
+    } else {
+      this.parentElement.classList.remove('error');
+      this.parentElement.classList.add('success');
+      this.nextElementSibling.classList.add('success');
+    }
+  })
+  profileForm.addEventListener('submit', e => {
+    e.preventDefault();
+    checkprofileFormInputs();
+  });
+  function checkprofileFormInputs() {
+    const profileNameValue = profileName.value.trim();
+    const profileLastnameValue = profileLastname.value.trim();
+    const profileEmailValue = profileEmail.value.trim();
+    const profilePhoneValue = profilePhone.value.trim();
+    
+    if(profileNameValue !== '' && profileNameValue.length >= profileNameMin && profileNameValue.length <= profileNameMax) {
+      setSuccessFor(profileName);
+    } else {
+      setErrorFor(profileName);
+    }
+    if(profileLastnameValue !== '' && profileLastnameValue.length >= profileLastnameMin && profileLastnameValue.length <= profileLastnameMax) {
+      setSuccessFor(profileLastname);
+    } else {
+      setErrorFor(profileLastname);
+    }
+    if(!isFormEmailValid(profileEmailValue)) {
+      setErrorFor(profileEmail);
+    } else if (profileEmailValue !== '' && profileEmailValue.length >= profileEmailMin && profileEmailValue.length <= profileEmailMax) {
+      setSuccessFor(profileEmail);
+    } else {
+      setErrorFor(profileEmail);
+    }
+    if(profilePhoneValue !== '' && profilePhoneValue.length >= profilePhoneMin && profilePhoneValue.length <= profilePhoneMax) {
+      setSuccessFor(profilePhone);
+    } else {
+      setErrorFor(profilePhone);
+    }
+    
+    if(!isFormEmailValid(profileEmailValue)) {
+      setErrorFor(profileEmail);
+    } else if(
+    profileNameValue !== '' && profileNameValue.length >= profileNameMin && profileNameValue.length <= profileNameMax && 
+    profileLastnameValue !== '' && profileLastnameValue.length >= profileLastnameMin && profileLastnameValue.length <= profileLastnameMax && 
+    profileEmailValue !== '' && profileEmailValue.length >= profileEmailMin && profileEmailValue.length <= profileEmailMax && 
+    profilePhoneValue !== '' && profilePhoneValue.length >= profilePhoneMin && profilePhoneValue.length <= profilePhoneMax && (profileMale.checked || profileFemale.checked)) {
+      fetch('/ajax/sendMail.php', {
+        method: 'POST',
+        body: JSON.stringify({
+          profileNameValue: profileNameValue,
+          profileLastnameValue: profileLastnameValue,
+          profileEmailValue: profileEmailValue,
+          profilePhoneValue: profilePhoneValue,
+          registrationcheckbox: profilePhoneValue,
+          registrationcheckbox: profilePhoneValue
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      })
+      .then(() => {
+        profileName.value = '';
+        profileLastname.value = '';
+        profileEmail.value = '';
+        profilePhone.value = '';
+        document.querySelector('.login_overlay').classList.remove("active");
+        document.querySelector('.login_popup').classList.remove("active");
+        document.documentElement.classList.remove("noscroll");
+        scroll.start();
+      })
+    }
+  }
+}
+// end login_popup__form_reg
