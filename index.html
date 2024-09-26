@@ -33,11 +33,13 @@
     </div>
   </div>
   <div class="add_cart "> 
-    <p class="title_three">Cleansing gel добавлено в корзину</p>
-    <div class="add_cart_close">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M11.9941 13.0605L16.9336 18L17.9941 16.9395L13.0546 12L17.9941 7.0605L16.9336 6L11.9941 10.9395L7.05464 6L5.99414 7.0605L10.9336 12L5.99414 16.9395L7.05464 18L11.9941 13.0605Z" fill="white"/>
-      </svg> 
+    <div class="add_cart__item"> 
+      <p class="title_three"><a href="#">Cleansing gel</a> добавлено в корзину</p>
+      <div class="add_cart_close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.9941 13.0605L16.9336 18L17.9941 16.9395L13.0546 12L17.9941 7.0605L16.9336 6L11.9941 10.9395L7.05464 6L5.99414 7.0605L10.9336 12L5.99414 16.9395L7.05464 18L11.9941 13.0605Z" fill="white"/>
+        </svg> 
+      </div>
     </div>
   </div>
   <header class="header header__transparent">
@@ -72,7 +74,7 @@
             <nav class="header__nav">
               <ul class="header__nav_list">
                 <li class="header__nav_item">
-                  <a href="catalog.html" class="header__nav_link title_four"><span>Каталог</span></a>
+                  <a href="catalog.html" class="header__nav_link active title_four"><span>Каталог</span></a>
                 </li>
                 <li class="header__nav_item">
                   <a href="about.html" class="header__nav_link title_four"><span>О нас</span></a>
@@ -108,7 +110,7 @@
               </svg>
               <span class="header__link_cart_circle active"></span>
             </button>
-            <div class="cart_min">
+            <div class="cart_min scrolls">
               <div class="cart_min__goods">
                 <ul class="cart_min__list">
                   <li class="cart_min__item">
@@ -358,12 +360,12 @@
             </div>
         </div>
         <div class="home_page_name">
-          <h1 class="animate_top">КАТАЛОГ
-          </h1>
+          <h1 class="animate_top"><a href="#">КАТАЛОГ
+          </a></h1>
           <svg class="animate_top" width="41" height="40" viewBox="0 0 41 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M20.9824 23.533L37.4474 39.998L40.9824 36.463L24.5174 19.998L40.9824 3.53305L37.4474 -0.00195328L20.9824 16.463L4.51742 -0.00195472L0.982422 3.53304L17.4474 19.998L0.98242 36.463L4.51742 39.998L20.9824 23.533Z" fill="#202020"/>
           </svg>
-          <p class="big_one animate_top">СКАНЕР INDAGO</p>
+          <p class="big_one animate_top"><a href="#">СКАНЕР INDAGO</a></p>
         </div>
       </div>
     </section>
@@ -655,56 +657,58 @@
               <p class="indago_sub__text_descr">В среднем подписка стоит на 10% дешевле, чем покупка средств по отдельности</p>
             </li> 
           </ul>
-          <ul class="indago_sub_pictures">
-            <li class="indago_sub_picture catalog_banner_max">
-              <div class="catalog_banner_max__background animate_image">
-                <div class="indago_sub_background">
-                  <img src="./img/indago/indago_bg_1.webp" loading="lazy" alt=""/>
-                </div>
-                <div class="catalog_banner_max__wrapper">
-                  <div class="catalog_banner_max__img animate_image">
-                    <img src="./img/indago/indago_product_1.webp" loading="lazy" alt=""/>
+          <div class="indago_sub__swiper swiper">
+            <ul class="indago_sub_pictures swiper-wrapper">
+              <li class="indago_sub_picture catalog_banner_max swiper-slide">
+                <div class="catalog_banner_max__background animate_image">
+                  <div class="indago_sub_background">
+                    <img src="./img/indago/indago_bg_1.webp" loading="lazy" alt=""/>
                   </div>
-                  <p class="title_four">Small</p>
-                  <p class="title_four">[5]</p>
-                  <p class="title_four">Базовый </p>
-                  <p class="title_four">5 Продуктов</p>
-                </div>
-              </div>
-            </li>
-            <li class="indago_sub_picture catalog_banner_max active">
-              <div class="catalog_banner_max__background animate_image">
-                <div class="indago_sub_background">
-                  <img src="./img/indago/indago_bg_2.webp" loading="lazy" alt=""/>
-                </div>
-                <div class="catalog_banner_max__wrapper">
-                  <div class="catalog_banner_max__img animate_image">
-                    <img src="./img/indago/indago_product_1.webp" loading="lazy" alt=""/>
+                  <div class="catalog_banner_max__wrapper">
+                    <div class="catalog_banner_max__img animate_image">
+                      <img src="./img/indago/indago_product_1.webp" loading="lazy" alt=""/>
+                    </div>
+                    <p class="title_four">Small</p>
+                    <p class="title_four">[5]</p>
+                    <p class="title_four">Базовый </p>
+                    <p class="title_four">5 Продуктов</p>
                   </div>
-                  <p class="title_four">Medium</p>
-                  <p class="title_four">[6]</p>
-                  <p class="title_four">КОМПЛЕКСНЫЙ</p>
-                  <p class="title_four">6 Продуктов</p>
                 </div>
-              </div>
-            </li>
-            <li class="indago_sub_picture catalog_banner_max">
-              <div class="catalog_banner_max__background animate_image">
-                <div class="indago_sub_background">
-                  <img src="./img/indago/indago_bg_3.webp" loading="lazy" alt=""/>
-                </div>
-                <div class="catalog_banner_max__wrapper">
-                  <div class="catalog_banner_max__img animate_image">
-                    <img src="./img/indago/indago_product_1.webp" loading="lazy" alt=""/>
+              </li>
+              <li class="indago_sub_picture catalog_banner_max swiper-slide">
+                <div class="catalog_banner_max__background animate_image">
+                  <div class="indago_sub_background">
+                    <img src="./img/indago/indago_bg_2.webp" loading="lazy" alt=""/>
                   </div>
-                  <p class="title_four">Large</p>
-                  <p class="title_four">[8]</p>
-                  <p class="title_four">РАСШИРЕННЫЙ</p>
-                  <p class="title_four">8 Продуктов</p>
+                  <div class="catalog_banner_max__wrapper">
+                    <div class="catalog_banner_max__img animate_image">
+                      <img src="./img/indago/indago_product_1.webp" loading="lazy" alt=""/>
+                    </div>
+                    <p class="title_four">Medium</p>
+                    <p class="title_four">[6]</p>
+                    <p class="title_four">КОМПЛЕКСНЫЙ</p>
+                    <p class="title_four">6 Продуктов</p>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+              <li class="indago_sub_picture catalog_banner_max swiper-slide">
+                <div class="catalog_banner_max__background animate_image">
+                  <div class="indago_sub_background">
+                    <img src="./img/indago/indago_bg_3.webp" loading="lazy" alt=""/>
+                  </div>
+                  <div class="catalog_banner_max__wrapper">
+                    <div class="catalog_banner_max__img animate_image">
+                      <img src="./img/indago/indago_product_1.webp" loading="lazy" alt=""/>
+                    </div>
+                    <p class="title_four">Large</p>
+                    <p class="title_four">[8]</p>
+                    <p class="title_four">РАСШИРЕННЫЙ</p>
+                    <p class="title_four">8 Продуктов</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
           <a href="" class="btn btn__white catalog_banner_max_button title_four animate_top">
             <span class="btn__hover"></span>
             <span class="btn__text">
@@ -1197,6 +1201,39 @@
                 <input type="submit" class="hidden">
               </div>
             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pop_up__overlay"></div>
+  <div class="pop_up cancel_order">
+    <div class="pop_up__block">
+      <div class="pop_up__scroll">
+        <div class="pop_up__wrapper"> 
+          <button class="pop_up__close">
+            <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.0294 2.02934L15.9688 0.96875L8.99909 7.93841L2.02944 0.96875L0.96875 2.02934L7.93845 8.99905L0.96875 15.9688L2.02944 17.0293L8.99909 10.0597L15.9688 17.0293L17.0294 15.9688L10.0597 8.99905L17.0294 2.02934Z" fill="#343439"/>
+            </svg>  
+          </button>
+          <div class="pop_up__info title_three">
+            <p class="pop_up__title title_one">отменить заказ</p>
+            <p class="pop_up__subtitle title_three">Цены и наличие товаров могут измениться.
+              Есть вопросы? Звоните 8 999 999 99 99 или пишите Telegram</p>
+            <div class="pop_up__btn_wrapper">
+              <div class="pop_up__btn">
+                <a href="" class="btn btn__white title_four">
+                  <span class="btn__hover"></span>
+                  <span class="btn__text">Добавить карту</span>
+                </a>
+              </div>
+              <div class="pop_up__btn_cancel">
+                <a href="" class="btn title_four">
+                  <span class="btn__hover"></span>
+                  <span class="btn__text">Отменить</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -270,38 +270,42 @@ burger.addEventListener('click', function() {
 const headerLogin = document.querySelector('.header__login');
 const headerPopupLogin = document.querySelector('.burger_popup__login');
 const loginPopupClose = document.querySelector('.login_popup__close');
+if (headerLogin){
+  headerLogin.addEventListener('click', function() {
+    overlay.classList.remove("active");
+    menu.classList.remove("active");
+    burger.classList.remove("active");
+    header.classList.remove("active");
+    headerClose.classList.remove("active");
+    burgerPopup.classList.remove("active");
+    header.classList.remove("header__transparent");
+    loginOverlay.classList.add("active");
+    loginPopup.classList.add("active");
+    headerClose.classList.add("active");
+    document.documentElement.classList.add("noscroll");
+    scroll.stop();
+  })
+}
 
-headerLogin.addEventListener('click', function() {
-  overlay.classList.remove("active");
-  menu.classList.remove("active");
-  burger.classList.remove("active");
-  header.classList.remove("active");
-  headerClose.classList.remove("active");
-  burgerPopup.classList.remove("active");
-  header.classList.remove("header__transparent");
-  loginOverlay.classList.add("active");
-  loginPopup.classList.add("active");
-  headerClose.classList.add("active");
-  document.documentElement.classList.add("noscroll");
-  scroll.stop();
-})
-headerPopupLogin.addEventListener('click', function() {
-  overlay.classList.remove("active");
-  menu.classList.remove("active");
-  burger.classList.remove("active");
-  header.classList.remove("active");
-  headerClose.classList.remove("active");
-  burgerPopup.classList.remove("active");
-  header.classList.remove("header__transparent");
-  loginOverlay.classList.add("active");
-  loginPopup.classList.add("active");
-  headerClose.classList.add("active");
-  document.documentElement.classList.add("noscroll");
-  scroll.stop();
-})
+if (headerPopupLogin){
+  headerPopupLogin.addEventListener('click', function() {
+    overlay.classList.remove("active");
+    menu.classList.remove("active");
+    burger.classList.remove("active");
+    header.classList.remove("active");
+    headerClose.classList.remove("active");
+    burgerPopup.classList.remove("active");
+    header.classList.remove("header__transparent");
+    loginOverlay.classList.add("active");
+    loginPopup.classList.add("active");
+    headerClose.classList.add("active");
+    document.documentElement.classList.add("noscroll");
+    scroll.stop();
+  })
+}
 // end header__login
 
-// button overlay
+//button overlay
 loginPopupClose.addEventListener('click', function() {
   loginOverlay.classList.remove("active");
   loginPopup.classList.remove("active");
@@ -592,6 +596,31 @@ if (aboutSlider) {
 }
 // end about_slider__swiper
 
+// start indago_sub__swiper
+const indagoSlider = document.querySelector('.indago_sub__swiper');
+if (indagoSlider) {
+  [...document.querySelectorAll('.indago_sub__swiper')].map((n, i) => {
+    let l = document.querySelectorAll('.indago_sub_pictures')[i].innerHTML;
+    n.querySelector('.indago_sub_pictures').innerHTML = l + l
+  })
+  var indagoSwiper = new Swiper('.indago_sub__swiper', {
+    loop: true,
+    slidesPerView: 1,
+    loopedSlides: 2,
+    centeredSlides: true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 3,
+      },
+    },
+  });
+}
+// end indago_sub__swiper
+
 // start product
 const productSlider = document.querySelector('.product__swiper');
 if (productSlider) {
@@ -679,34 +708,46 @@ const ingredientpopup = document.querySelector('.ingredient_popup');
 const ingredientpopupOverlay = document.querySelector('.ingredient_popup__overlay');
 const ingredientPopupInfo = document.querySelector('.ingredient_popup__info');
 
-if (ingredientpopupOverlay) {
-  ingredientItems.forEach((ingredient, i) => {
-    ingredient.addEventListener('click', function () {
-      ingredientpopup.classList.add('active');
-      ingredientpopupOverlay.classList.add('active');
-      document.documentElement.classList.add("noscroll");
-      const ingredientText = this.children[0].children[1]
-      const ingredientName = this.children[1]
-      ingredientPopupInfo.innerHTML = `<p>${ingredientName.innerHTML}</p>` + ingredientText.innerHTML;
-      scroll.stop();
-    });
-  });
+
+function initializeIngredientPopup() {
   if (ingredientpopupOverlay) {
+    ingredientItems.forEach((ingredient) => {
+      ingredient.addEventListener('click', function () {
+        ingredientpopup.classList.add('active');
+        ingredientpopupOverlay.classList.add('active');
+        document.documentElement.classList.add("noscroll");
+        const ingredientText = this.children[0].children[1];
+        const ingredientName = this.children[1];
+        ingredientPopupInfo.innerHTML = `<p>${ingredientName.innerHTML}</p>` + ingredientText.innerHTML;
+        scroll.stop();
+      });
+    });
+
     ingredientpopupOverlay.addEventListener('click', e => {
       ingredientpopup.classList.remove('active');
       ingredientpopupOverlay.classList.remove('active');
       document.documentElement.classList.remove("noscroll");
       scroll.start();
     });
+
+    document.querySelector('.ingredient_popup__close').addEventListener('click', e => {
+      ingredientpopup.classList.remove('active');
+      ingredientpopupOverlay.classList.remove('active');
+      document.documentElement.classList.remove("noscroll");
+      scroll.start();
+    });
   }
-  document.querySelector('.ingredient_popup__close').addEventListener('click', e => {
-    ingredientpopup.classList.remove('active');
-    ingredientpopupOverlay.classList.remove('active');
-    document.documentElement.classList.remove("noscroll");
-    console.log('sss')
-    scroll.start();
-  });
 }
+
+function checkScreenSize() {
+  if (window.innerWidth < 768) {
+    initializeIngredientPopup();
+  }
+}
+
+checkScreenSize();
+
+window.addEventListener('resize', checkScreenSize);
 
 // end ingredient popup mobile
 
@@ -719,11 +760,14 @@ const problemPaymentItem = document.querySelector("#orderBtnCancel");
 
 const popUpProblemPayment = document.querySelector('.pop_up.problem_payment');
 const popUpCancelOrder = document.querySelector('.pop_up.cancel_order');
+const popUpDeleteProfile = document.querySelector('.pop_up.delete_profile');
 
 const forWhomPopUpInput = document.querySelector('.for_whom.pop_up .form__input');
+const deleteProfileBtnCancel = document.querySelector('#deleteProfileBtnCancel');
+const deleteProfileBtnDel = document.querySelector('#deleteProfileBtnDel');
 
 if (forWhomItems.length > 0) {
-  forWhomItems.forEach((forWhom, i) => {
+  forWhomItems.forEach((forWhom,) => {
     forWhom.addEventListener('click', function () {
       forWhomPopUpInput.setAttribute("data-idproduct",forWhom.getAttribute("data-idproduct")); 
       forWhom.classList.add('active')
@@ -744,12 +788,23 @@ if (problemPaymentItem) {
   });
 }
 
+if (deleteProfileBtnDel) {
+  deleteProfileBtnDel.addEventListener('click', function () {
+    popUpDeleteProfile.classList.add('active')
+    popUpOverlay.classList.add('active');
+    document.documentElement.classList.add("noscroll");
+    scroll.stop();
+  });
+}
+
+
 if (popUpOverlay) {  
   popUpOverlay.addEventListener('click', e => {
     popUpForWhom?.classList.remove('active');
     popUpOverlay.classList.remove('active');
     popUpProblemPayment?.classList.remove('active');
     popUpCancelOrder?.classList.remove('active');
+    popUpDeleteProfile?.classList.remove('active');
     document.documentElement.classList.remove("noscroll");
     scroll.start();
   });
@@ -759,11 +814,20 @@ if (popUpOverlay) {
       popUpOverlay.classList.remove('active');
       popUpProblemPayment?.classList.remove('active');
       popUpCancelOrder?.classList.remove('active');
+      popUpDeleteProfile?.classList.remove('active');
       document.documentElement.classList.remove("noscroll");
       scroll.start();
     });
   })
-  
+}
+
+if (deleteProfileBtnCancel) {
+  deleteProfileBtnCancel.addEventListener('click', e => {
+    popUpOverlay.classList.remove('active');
+    popUpDeleteProfile?.classList.remove('active');
+    document.documentElement.classList.remove("noscroll");
+    scroll.start();
+  })
 }
 
 // end popup 
@@ -897,26 +961,6 @@ if (maps) {
 }
 // end yandex map
 
-// start indago picture
-
-const indagoPicturesWrapper = document.querySelector('.indago_sub_pictures');
-const indagoPictureslist = document.querySelectorAll(".indago_sub_picture");
-
-if (indagoPicturesWrapper) {
-  indagoPictureslist.forEach((indagoPicture) => {
-    indagoPicture.addEventListener('mouseover', function () {
-      indagoPictureslist.forEach((picture) => {
-        if (picture.classList.contains('active')) {
-          picture.classList.remove('active');
-        }
-      })
-      indagoPicture.classList.add('active');
-    });
-  });
-}
-
-// end indago picture
-
 // start indago efficiency mobile
 
 const indagoEfficiencyIcon = document.querySelector('.indago_efficiency__svg_mobule');
@@ -991,33 +1035,77 @@ const cardBtn = document.querySelector('.header__link_cart');
 const cardMinWrapper = document.querySelector('.cart_min');
 
 if (cardBtn) {
-  cardBtn.addEventListener('click', function () {
+  cardBtn.addEventListener('click', function(event) {
+    event.stopPropagation();
     cardMinWrapper.classList.toggle('active');
+    if (cardMinWrapper.classList.contains('active')) {
+      document.addEventListener('click', closeCart);
+    } else {
+      document.removeEventListener('click', closeCart);
+    }
   });
+}
+
+function closeCart(event) {
+  if (!event.target.closest('.cart_min')) {
+    cardMinWrapper.classList.remove('active');
+    document.removeEventListener('click', closeCart);
+  }
 }
 
 // end cart min
 
-// start cart min
+// start add_cart
 
 const addCart = document.querySelector('.add_cart');
 const addCartClose = document.querySelector('.add_cart_close');
-const buyPokup = document.querySelector('.buy-pokup');
-const buyPokupList = document.querySelectorAll('.buy-pokup');
+const buyButtons = document.querySelectorAll('.buy-pokup');
 
-if (buyPokupList.length > 0) {
-  buyPokupList.forEach((buyPokupItem) => {
-    buyPokupItem.addEventListener('click', function () {
-      if (addCart) {
-        addCart.classList.add('active');
+let cartTimer; 
+
+if (buyButtons.length > 0) {
+  buyButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      addCart.classList.add('active');
+      const listItem = button.closest('.catalog_page__item');
+      const aboutName = listItem.querySelector('.about_slider__name');
+      const addCartContainer = document.querySelector('.add_cart');
+      const newAddCartItem = document.createElement('div');
+      newAddCartItem.classList.add('add_cart__item');
+      newAddCartItem.innerHTML = `
+          <p class="title_three"><a href="/personal/cart/">${aboutName.textContent}</a> добавлено в корзину</p>
+          <div class="add_cart_close">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11.9941 13.0605L16.9336 18L17.9941 16.9395L13.0546 12L17.9941 7.0605L16.9336 6L11.9941 10.9395L7.05464 6L5.99414 7.0605L10.9336 12L5.99414 16.9395L7.05464 18L11.9941 13.0605Z" fill="white"/>
+              </svg>
+          </div>
+      `;
+      addCartContainer.appendChild(newAddCartItem);
+      addCartContainer.classList.add('active');
+
+      if (cartTimer) {
+        clearTimeout(cartTimer);
       }
-    });
-  })
-}
+      cartTimer = setTimeout(() => {
+        addCartContainer.classList.remove('active');
+        console.log('Таймер истек');
+        setTimeout(() => {
+          while (addCartContainer.firstChild) {
+            addCartContainer.removeChild(addCartContainer.firstChild);
+          }
+          addCartContainer.classList.remove('active');
+        }, 500);
 
-if (addCartClose) {
-  addCartClose.addEventListener('click', function () {
-    addCart.classList.remove('active');
+      }, 5000);
+
+      newAddCartItem.querySelector('.add_cart_close').addEventListener('click', function() {
+        addCartContainer.removeChild(newAddCartItem);
+        if (addCartContainer.children.length === 0) {
+          clearTimeout(cartTimer); 
+          addCartContainer.classList.remove('active');
+        }
+      });
+    });
   });
 }
 
