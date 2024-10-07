@@ -35,6 +35,7 @@ if (!document.querySelector('.has-scroll-smooth')) {
       } else {
         header.classList.remove('header__transparent');
       }
+      console.log(window.scrollY, document.querySelector(".ingredients_home").clientHeight, document.querySelector(".header").clientHeight)
     }
 
     document.documentElement.setAttribute('scroll', `${window.scrollY}`);
@@ -57,7 +58,7 @@ if (!document.querySelector('.has-scroll-smooth')) {
     document.documentElement.setAttribute('scroll', `${Math.round(args["scroll"]["y"])}`);
 
     if (headert) {
-      if (Math.round(args["scroll"]["y"]) <= 40) {
+      if (Math.round(args["scroll"]["y"]) <= document.querySelector(".ingredients_home").clientHeight - document.querySelector(".header").clientHeight) {
         header.classList.add('header__transparent');
       } else {
         header.classList.remove('header__transparent');
@@ -66,151 +67,6 @@ if (!document.querySelector('.has-scroll-smooth')) {
   });
 }
 // end scroll
-
-// start cursor
-document.addEventListener("DOMContentLoaded", () => {
-  const cursor = document.querySelector(".cursor");
-  const cursorBlock = cursor.querySelector(".cursor__block");
-  const a = document.querySelectorAll('a');
-  const button = document.querySelectorAll('button');
-  const label = document.querySelectorAll('label');
-  const hslanguageicon = document.querySelectorAll('.header__set_language_icon');
-  const sinview = document.querySelectorAll('.showreel__button');
-  const cursorgrab = document.querySelectorAll('.c-scrollbar_thumb');
-  const buttonnext = document.querySelectorAll('.swiper-button-next');
-  const buttonprev = document.querySelectorAll('.swiper-button-prev');
-  const sliders = document.querySelectorAll(".swiper-wrapper");
-
-  document.addEventListener('mousemove', function (e) {
-    let ctx = e.clientX;
-    let cty = e.clientY;
-    if (ctx > (document.body.offsetWidth - 5) || cty > (document.body.offsetHeight - 5) || ctx < 5 || cty < 5) {
-      cursor.classList.add('leave')
-    } else {
-      cursor.classList.remove('leave')
-    }
-  });
-
-  function moveCursor(event) {
-    var cursorX = event.clientX + "px";
-    var cursorY = event.clientY + "px";
-    cursor.style.transform = `translate3d(${cursorX}, ${cursorY}, 0)`;
-  }
-
-  document.onmousemove = (event) => {
-    moveCursor(event);
-    cursor.classList.remove("active");
-  };
-
-  document.onpointermove = (event) => {
-    moveCursor(event);
-    cursor.classList.remove("active");
-  };
-
-  document.addEventListener('mousedown', function () {
-    cursor.classList.add('active')
-  });
-
-  document.addEventListener('mouseup', function () {
-    cursor.classList.remove('active')
-  });
-
-  sinview.forEach(item => {
-    item.onmouseenter = () => {
-      cursor.classList.add("cursor__showreel");
-    };
-    item.onmouseleave = () => {
-      cursor.classList.remove("cursor__showreel");
-      cursorBlock.classList.remove("active");
-    };
-    item.onpointerdown = () => {
-      cursorBlock.classList.add("active");
-    };
-    item.onpointerup = () => {
-      cursorBlock.classList.remove("active");
-    };
-  });
-
-  cursorgrab.forEach(item => {
-    item.addEventListener('mouseover', () => {
-      cursor.classList.add('hover');
-    });
-    item.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hover');
-    });
-  });
-
-  sliders.forEach(item => {
-    item.onmouseenter = () => {
-      cursor.classList.add("cursor__slider");
-    };
-    item.onmouseleave = () => {
-      cursor.classList.remove("cursor__slider");
-      cursorBlock.classList.remove("active");
-    };
-    item.onpointerdown = () => {
-      cursorBlock.classList.add("active");
-    };
-    item.onpointerup = () => {
-      cursorBlock.classList.remove("active");
-    };
-  });
-
-  a.forEach(item => {
-    item.addEventListener('mouseover', () => {
-      cursor.classList.add('hover');
-    });
-    item.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hover');
-    });
-  })
-
-  button.forEach(item => {
-    item.addEventListener('mouseover', () => {
-      cursor.classList.add('hover');
-    });
-    item.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hover');
-    });
-  })
-
-  hslanguageicon.forEach(item => {
-    item.addEventListener('mouseover', () => {
-      cursor.classList.add('hover');
-    });
-    item.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hover');
-    });
-  })
-
-  label.forEach(item => {
-    item.addEventListener('mouseover', () => {
-      cursor.classList.add('hover');
-    });
-    item.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hover');
-    });
-  })
-
-  buttonnext.forEach(item => {
-    item.addEventListener('mouseover', () => {
-      cursor.classList.add('hover');
-    });
-    item.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hover');
-    });
-  })
-
-  buttonprev.forEach(item => {
-    item.addEventListener('mouseover', () => {
-      cursor.classList.add('hover');
-    });
-    item.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hover');
-    });
-  })
-});
-// end cursor
 
 // start year
 const year = document.querySelector('.footer__year');
@@ -576,21 +432,32 @@ for (i = 0; i < productButton.length; i++) {
 }
 // end select
 
+// start select item
+const selectItems = document.querySelectorAll('.form__select_list_item');
+const selectItem = document.querySelector('.form__select_list_item');
+const selectItemArrow = document.querySelector('.form__select_arrow');
+
+if (selectItem) {
+  if (selectItems.length < 2) {
+    selectItem.classList.add("none")
+    selectItemArrow.classList.add("none")
+  }
+}
+// end select
+
 // start about_slider__swiper
 const aboutSlider = document.querySelector('.about_slider__swiper');
 if (aboutSlider) {
   var aboutSwiper = new Swiper('.about_slider__swiper', {
     loop: false,
-    slidesPerView: 1,
+    slidesPerView: "auto",
     loopedSlides: 1,
     spaceBetween: 8,
     breakpoints: {
       1024: {
-        slidesPerView: 2,
         spaceBetween: 24,
       },
       768: {
-        slidesPerView: 2,
         spaceBetween: 16,
       },
     },
@@ -600,28 +467,126 @@ if (aboutSlider) {
 
 // start indago_sub__swiper
 const indagoSlider = document.querySelector('.indago_sub__swiper');
+
 if (indagoSlider) {
-  [...document.querySelectorAll('.indago_sub__swiper')].map((n, i) => {
-    let l = document.querySelectorAll('.indago_sub_pictures')[i].innerHTML;
-    n.querySelector('.indago_sub_pictures').innerHTML = l + l
-  })
-  var indagoSwiper = new Swiper('.indago_sub__swiper', {
+  const slides = indagoSlider.querySelectorAll('.swiper-slide');
+  let indagoSwiper;
+  let slideInterval; 
+  let currentIndex = 0;
+  const intervalTime = 3000; 
+
+  function initSwiper() {
+    const isMobile = window.innerWidth <= 767;
+    if(isMobile) {
+      [...document.querySelectorAll('.indago_sub__swiper')].map((n, i) => {
+        let l = document.querySelectorAll('.indago_sub_pictures')[i].innerHTML;
+        n.querySelector('.indago_sub_pictures').innerHTML = l + l;
+      });
+    }
+    indagoSwiper = new Swiper('.indago_sub__swiper', {
+      loop: isMobile,
+      slidesPerView: isMobile ? 1 : 3,
+      loopedSlides: isMobile ? 2 : 0,
+      centeredSlides: isMobile,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false
+      }
+    });
+
+    if(!isMobile) {
+      slides.forEach((slide, index) => {
+        slide.addEventListener('mouseenter', (e) => {
+          slides.forEach((slide, index) => {
+            slide.classList.remove('swiper-slide-active')
+          })
+          e.target.classList.add('swiper-slide-active')
+        });
+      });
+      startCycle();
+      indagoSlider.addEventListener('mouseenter', (e) => {
+        stopCycle()
+      });
+        indagoSlider.addEventListener('mouseleave', (e) => {
+        resumeCycle()
+      });
+    }
+  }
+
+  initSwiper(); 
+
+  function setActiveSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('swiper-slide-active');
+      if (i === index) {
+        slide.classList.add('swiper-slide-active');
+      }
+    });
+  }
+
+  function observeSlides() {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSlide(currentIndex);
+        }
+      });
+    }, options);
+    slides.forEach(slide => {
+      observer.observe(slide);
+    });
+  }
+
+  function startCycle() {
+    setActiveSlide(currentIndex);
+    observeSlides();
+    slideInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      setActiveSlide(currentIndex);
+    }, intervalTime);
+  }
+
+  function stopCycle() {
+    clearInterval(slideInterval); 
+  }
+
+  function resumeCycle() {
+    startCycle();
+  }
+
+  window.addEventListener('resize', () => {
+    indagoSwiper.destroy(true, true);
+    initSwiper(); 
+  });
+}
+// end indago_sub__swiper
+
+// start ingredients_page__swiper
+const ingredientsSlider = document.querySelector('.ingredients_page__swiper');
+if (ingredientsSlider) {
+  var indagoSwiper = new Swiper('.ingredients_page__swiper', {
     loop: true,
-    slidesPerView: 1,
+    slidesPerView: 'auto',
     loopedSlides: 2,
-    centeredSlides: true,
+    centeredSlides: false,
     autoplay: {
       delay: 3000,
       disableOnInteraction: false
     },
     breakpoints: {
-      768: {
+      767: {
         slidesPerView: 3,
+        centeredSlides: true,
       },
     },
   });
 }
-// end indago_sub__swiper
+// end ingredients_page__swiper
 
 // start product
 const productSlider = document.querySelector('.product__swiper');
@@ -1060,53 +1025,88 @@ function closeCart(event) {
 // start add_cart
 
 const addCart = document.querySelector('.add_cart');
-const addCartClose = document.querySelector('.add_cart_close');
 const buyButtons = document.querySelectorAll('.buy-pokup');
 
 let cartTimer; 
+let addCartTimeout; 
+let addCartQueue = []; 
+const intervalDelay = 1000; 
 
 if (buyButtons.length > 0) {
   buyButtons.forEach(button => {
     button.addEventListener('click', function(event) {
-      addCart.classList.add('active');
-      const listItem = button.closest('.catalog_page__item');
+      document.querySelector('.header__link_cart_circle').classList.add('active');
+      addCartQueue.push(button);
+      if (!addCartTimeout) {
+        addNextToCart();
+      }
+    });
+  });
+
+  function addNextToCart() {
+    if (addCartQueue.length === 0) {
+      addCartTimeout = null; 
+      return;
+    }
+    const currentButton = addCartQueue.shift(); 
+    let listItem;
+
+    if(currentButton.closest('.catalog_page__item')){
+      listItem = currentButton.closest('.catalog_page__item');
+    } else {
+      listItem = currentButton.closest('.about_slider__slide');
+    }
+    if(listItem) {
       const aboutName = listItem.querySelector('.about_slider__name');
-      const addCartContainer = document.querySelector('.add_cart');
       const newAddCartItem = document.createElement('div');
       newAddCartItem.classList.add('add_cart__item');
       newAddCartItem.innerHTML = `
-          <p class="title_three"><a href="/personal/cart/">${aboutName.textContent}</a> добавлено в корзину</p>
-          <div class="add_cart_close">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11.9941 13.0605L16.9336 18L17.9941 16.9395L13.0546 12L17.9941 7.0605L16.9336 6L11.9941 10.9395L7.05464 6L5.99414 7.0605L10.9336 12L5.99414 16.9395L7.05464 18L11.9941 13.0605Z" fill="white"/>
-              </svg>
-          </div>
+        <p class="title_three"><a href="/personal/cart/">${aboutName.textContent}</a> добавлено в корзину</p>
+        <div class="add_cart_close">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.9941 13.0605L16.9336 18L17.9941 16.9395L13.0546 12L17.9941 7.0605L16.9336 6L11.9941 10.9395L7.05464 6L5.99414 7.0605L10.9336 12L5.99414 16.9395L7.05464 18L11.9941 13.0605Z" fill="white"/>
+          </svg>
+        </div>
       `;
-      addCartContainer.appendChild(newAddCartItem);
-      addCartContainer.classList.add('active');
+      addCart.appendChild(newAddCartItem); 
+      addCart.classList.add('active');
 
       if (cartTimer) {
-        clearTimeout(cartTimer);
+        clearTimeout(cartTimer); 
       }
       cartTimer = setTimeout(() => {
-        addCartContainer.classList.remove('active');
+        addCart.classList.remove('active');
         console.log('Таймер истек');
         setTimeout(() => {
-          while (addCartContainer.firstChild) {
-            addCartContainer.removeChild(addCartContainer.firstChild);
+          while (addCart.firstChild) {
+            addCart.removeChild(addCart.firstChild);
           }
-          addCartContainer.classList.remove('active');
+          addCart.classList.remove('active');
         }, 500);
+      }, 4000);
 
-      }, 5000);
+      addCartTimeout = setTimeout(() => {
+        addNextToCart(); 
+      }, intervalDelay);
 
       newAddCartItem.querySelector('.add_cart_close').addEventListener('click', function() {
-        addCartContainer.removeChild(newAddCartItem);
-        if (addCartContainer.children.length === 0) {
-          clearTimeout(cartTimer); 
-          addCartContainer.classList.remove('active');
+        addCart.removeChild(newAddCartItem);
+        if (addCart.children.length === 0) { 
+          addCart.classList.remove('active');
         }
       });
+    }
+  }
+}
+
+const cartCloseButtons = document.querySelectorAll('.cart_min__goods .cart_min__item_close');
+if (cartCloseButtons.length > 0) {
+  cartCloseButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      if(cartCloseButtons.length < 2) {
+        document.querySelector('.header__link_cart_circle').classList.remove('active');
+      }
     });
   });
 }
@@ -1142,3 +1142,49 @@ if (ingredients_scrolllist) {
   });
 }
 // end ingredients_scroll__list
+
+// start shopping cart
+const shoppingCartWrapper = document.querySelector('.shopping_cart');
+
+function shopping() {
+  if (shoppingCartWrapper) {
+    shoppingCartWrapper.addEventListener('click', (event) => {
+      if (event.target.classList.contains('shopping_cart_products__close_path') || event.target.classList.contains('shopping_cart_products__close_svg')) {
+        const closeButton = event.target;
+        const product = closeButton.closest('.shopping_cart_product');
+        if (product) {
+          product.remove();
+        }
+        const shoppingCartCloses = shoppingCartWrapper.querySelectorAll('.shopping_cart_products__close');
+        if (shoppingCartCloses.length === 0) {
+          setTimeout(() => {
+            location.reload();
+          }, 500)
+        }
+      }
+    });
+  }
+}
+
+shopping();
+
+// end shopping cart
+
+// start homePageName
+function addHoverEffect(elementId, boxClass) {
+  const element = document.querySelector(`#${elementId}`);
+  const box = document.querySelector(`.${boxClass}`);
+
+  if (element && box) {
+    element.addEventListener('mouseenter', () => {
+      box.classList.add('active');
+    });
+    element.addEventListener('mouseleave', () => {
+      box.classList.remove('active');
+    });
+  }
+}
+
+addHoverEffect('homePageNameIndago', 'home_page_name__indago');
+addHoverEffect('homePageNameCatalog', 'home_page_name__catalog');
+// end homePageName
